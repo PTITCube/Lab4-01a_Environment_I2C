@@ -11,15 +11,17 @@ void setup() {
     Serial.begin(115200);
     while (!Serial) { delay(10); }
 
-    Serial.println("\n[RAW] Khởi tạo cảm biến BMP280...");
+    Serial.println("\n[EXAMPLE] Bắt đầu bài test Cảm biến Môi trường (BMP280)...");
+    Serial.println("[Sensor] Initializing Sensors...");
     
     // I2C mặc định trên ESP32: SDA=21, SCL=22
-    Wire.begin(); 
+    Wire.begin(21, 22); 
     
-    if (!bmp.begin(0x76)) {
-        Serial.println("[ERROR] Không tìm thấy BMP280 ở địa chỉ 0x76. Kiểm tra lại kết nối!");
+    if (!bmp.begin(0x76) && !bmp.begin(0x77)) {
+        Serial.println("BMP280 fail");
         while (1) delay(10);
     }
+    Serial.println("BMP280 found!");
     
     // Cấu hình thông số lấy mẫu
     bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,     /* Operating Mode. */
@@ -30,10 +32,21 @@ void setup() {
 }
 
 void loop() {
-    float temp = bmp.readTemperature();
-    float pres = bmp.readPressure() / 100.0F; // Chuyển sang hPa
-    float alt = bmp.readAltitude(1013.25);    // Theo áp suất chuẩn
-    
-    Serial.printf("[RAW] Nhiệt độ: %.2f °C | Áp suất: %.2f hPa | Độ cao: %.2f m\n", temp, pres, alt);
-    delay(2000);
+    static unsigned long lastPrint = 0;
+    if (millis() - lastPrint > 2000) {
+        lastPrint = millis();
+
+        Serial.println("-------------------------------------------------");
+        float temp = bmp.readTemperature();
+        float pres = bmp.readPressure() / 100.0F; // Chuyển sang hPa
+
+        Serial.print("Nhiệt độ (Temperature) : ");
+        Serial.print(temp);
+        Serial.println(" *C");
+        
+        Serial.print("Áp suất (Pressure)     : ");
+        Serial.print(pres);
+        Serial.println(" hPa");
+    }
 }
+
