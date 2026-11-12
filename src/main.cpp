@@ -2,26 +2,30 @@
  * VÍ DỤ 4-1a: ĐỌC CẢM BIẾN MÔI TRƯỜNG BMP280 BẰNG ADAFRUIT_BMP280
  */
 #include <Arduino.h>
+
+#include <PTITCube.h>
 #include <Wire.h>
 #include <Adafruit_BMP280.h>
+
+PTIT_CDH cdh;
 
 Adafruit_BMP280 bmp;
 
 void setup() {
-    Serial.begin(115200);
-    while (!Serial) { delay(10); }
+    cdh.begin(115200);
+    while (!cdh) { delay(10); }
 
-    Serial.println("\n[EXAMPLE] Bắt đầu bài test Cảm biến Môi trường (BMP280)...");
-    Serial.println("[Sensor] Initializing Sensors...");
+    cdh.println("\n[EXAMPLE] Bắt đầu bài test Cảm biến Môi trường (BMP280)...");
+    cdh.println("[Sensor] Initializing Sensors...");
     
     // I2C mặc định trên ESP32: SDA=21, SCL=22
     Wire.begin(21, 22); 
     
     if (!bmp.begin(0x76) && !bmp.begin(0x77)) {
-        Serial.println("BMP280 fail");
+        cdh.println("BMP280 fail");
         while (1) delay(10);
     }
-    Serial.println("BMP280 found!");
+    cdh.println("BMP280 found!");
     
     // Cấu hình thông số lấy mẫu
     bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,     /* Operating Mode. */
@@ -36,17 +40,16 @@ void loop() {
     if (millis() - lastPrint > 2000) {
         lastPrint = millis();
 
-        Serial.println("-------------------------------------------------");
-        float temp = bmp.readTemperature();
+                float temp = bmp.readTemperature();
         float pres = bmp.readPressure() / 100.0F; // Chuyển sang hPa
 
-        Serial.print("Nhiệt độ (Temperature) : ");
-        Serial.print(temp);
-        Serial.println(" *C");
+        cdh.print("Nhiệt độ (Temperature) : ");
+        cdh.print(temp);
+        cdh.println(" *C");
         
-        Serial.print("Áp suất (Pressure)     : ");
-        Serial.print(pres);
-        Serial.println(" hPa");
+        cdh.print("Áp suất (Pressure)     : ");
+        cdh.print(pres);
+        cdh.println(" hPa");
     }
 }
 
