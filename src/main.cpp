@@ -11,6 +11,12 @@ Adafruit_BMP280 bmp;
 
 void setup() {
     cdh.begin(115200);
+
+    // Kích hoạt GPIO 4 mức 1 để cấp dòng vào hạ áp nuôi cảm biến
+    pinMode(4, OUTPUT);
+    digitalWrite(4, HIGH);
+    delay(50);
+
     Wire.begin(21, 22);
 
     if (!bmp.begin(0x76) && !bmp.begin(0x77)) {
