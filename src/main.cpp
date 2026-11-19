@@ -40,7 +40,7 @@ void loop() {
     if (millis() - lastPrint > 2000) {
         lastPrint = millis();
 
-                float temp = bmp.readTemperature();
+        float temp = bmp.readTemperature();
         float pres = bmp.readPressure() / 100.0F; // Chuyển sang hPa
 
         cdh.print("Nhiệt độ (Temperature) : ");
