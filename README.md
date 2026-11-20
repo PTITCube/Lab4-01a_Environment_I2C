@@ -18,6 +18,10 @@
 | :--- | :--- | :--- |
 | I2C SDA | GPIO 21 | Tuyến dữ liệu I2C chung |
 | I2C SCL | GPIO 22 | Tuyến xung nhịp I2C chung |
+| Buck Control | GPIO 4 | Bật mạch hạ áp cấp nguồn cảm biến (Bắt buộc mức HIGH) |
+
+> [!IMPORTANT]
+> Mạch phần cứng CubeSat sử dụng **GPIO 4** để điều khiển mạch hạ áp (Buck Converter) cấp nguồn cho các cảm biến. Mặc định mạch ở mức 0 (ngắt dòng). Do đó, ở các bài thực hành đọc cảm biến I2C thuần, **bắt buộc phải xuất mức 1 (HIGH) ra GPIO 4** trước khi khởi tạo `Wire` để cấp nguồn cho cảm biến hoạt động.
 
 ---
 
