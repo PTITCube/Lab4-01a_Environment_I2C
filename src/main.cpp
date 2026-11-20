@@ -7,15 +7,14 @@
 #include <Adafruit_BMP280.h>
 
 PTIT_CDH cdh;
+PTIT_EPS eps;
 Adafruit_BMP280 bmp;
 
 void setup() {
     cdh.begin(115200);
 
-    // Kích hoạt GPIO 4 mức 1 để cấp dòng vào hạ áp nuôi cảm biến
-    pinMode(4, OUTPUT);
-    digitalWrite(4, HIGH);
-    delay(50);
+    // Kích hoạt hạ áp nuôi cảm biến qua thư viện EPS
+    eps.setBuckState(true);
 
     Wire.begin(21, 22);
 
