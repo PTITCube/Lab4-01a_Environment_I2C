@@ -11,7 +11,7 @@ PTIT_EPS eps;
 Adafruit_BMP280 bmp;
 
 void setup() {
-    cdh.begin(115200);
+    cdh.begin();
 
     // Kích hoạt hạ áp nuôi cảm biến qua thư viện EPS
     eps.setBuckState(true);
