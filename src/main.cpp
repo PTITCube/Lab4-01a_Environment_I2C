@@ -19,7 +19,7 @@ void setup() {
     Wire.begin(21, 22);
 
     if (!bmp.begin(0x76) && !bmp.begin(0x77)) {
-        cdh.println("BMP280: Warning: Sensor not detected!");
+        cdh.println("Warning: Sensor not detected!");
         return;
     }
 }
@@ -28,6 +28,6 @@ void loop() {
     float temp = bmp.readTemperature();
     float pres = bmp.readPressure() / 100.0F; // hPa
 
-    cdh.printf("BMP280: Temp: %.2f C | Press: %.1f hPa\n", temp, pres);
+    cdh.printf("Temp: %.2f C | Press: %.1f hPa\n", temp, pres);
     delay(2000);
 }
